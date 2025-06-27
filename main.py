@@ -85,9 +85,10 @@ class DynamicButtonGenerator:
 
     def on_closing(self):
         if tk.messagebox.askokcancel("关闭", "确定关闭本软件？"):
-            end_time_temp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print('软件关闭前修改当前班次结束时间')
-            self.executor.update_end_time_sql(end_time_temp)
+            if self.executor is not None:
+                end_time_temp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                print('软件关闭前修改当前班次结束时间')
+                self.executor.update_end_time_sql(end_time_temp)
             self.root.destroy()  # 销毁主窗口
 
     def init_executor(self):
