@@ -16,21 +16,21 @@ class DateCalendarWindow:
         """
         self.callback = callback
         self.window = tk.Toplevel(parent)
-        self.window.title(f"选择历史统计日期范围")
+        self.window.title(f"选择日期范围")
         self.window.transient(parent)
         self.window.grab_set()
         self.type_code = type_code
 
         if type_code == 0:
             # 单日统计
-            self.cal_stats = Calendar(self.window, selectmode='day')
+            self.cal_stats = Calendar(self.window, selectmode='day', locale='zh_CN')
             self.cal_stats.pack()
         else:
             # 起始日期日历
-            self.cal_start = Calendar(self.window, selectmode='day')
+            self.cal_start = Calendar(self.window, selectmode='day', locale='zh_CN')
             self.cal_start.pack(side='left', padx=10)
             # 结束日期日历
-            self.cal_end = Calendar(self.window, selectmode='day')
+            self.cal_end = Calendar(self.window, selectmode='day', locale='zh_CN')
             self.cal_end.pack(side='right', padx=10)
 
             if type_code == 2:
@@ -44,11 +44,11 @@ class DateCalendarWindow:
     # 选取日期范围窗口
     def confirm(self):
         if self.type_code == 0:
-            stats_date = datetime.strptime(self.cal_stats.get_date(), '%m/%d/%y')
+            stats_date = datetime.strptime(self.cal_stats.get_date(), '%Y/%m/%d')
             self.callback(stats_date)
         else:
-            start_date = datetime.strptime(self.cal_start.get_date(), '%m/%d/%y')
-            end_date = datetime.strptime(self.cal_end.get_date(), '%m/%d/%y')
+            start_date = datetime.strptime(self.cal_start.get_date(), '%Y/%m/%d')
+            end_date = datetime.strptime(self.cal_end.get_date(), '%Y/%m/%d')
 
             if self.type_code == 2:
                 pos_no = int(self.pos_no_entry.get())

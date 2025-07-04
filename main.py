@@ -212,7 +212,7 @@ class DynamicButtonGenerator:
         end_date = end_time_point.strftime("%Y年%m月%d日")
 
         # 根据时间范围筛选数据
-        res = self.executor.select_shift_change_stats(self.shift_start_time, end_time, self.shift)
+        res = self.executor.select_shift_change_stats(self.shift, self.shift_start_time, end_time)
         # shift_change_stats_path = self.output_path / "换班统计表.xlsx"
         header = f"{end_date}{self.shift}番茄脱皮、去蒂统计表"
         output_path = f'{header}.xlsx'

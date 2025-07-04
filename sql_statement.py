@@ -36,7 +36,7 @@ SQL_QUERIES = {
 
     # 表格1：操作统计表(输入的price要求为数值类型）
     "emp_stats": """
-    select 
+    select
         pos_no, emp_name,
         count(1) as bucket_num, 
         avg(impurity_rate) as avg_rate,
@@ -58,26 +58,38 @@ SQL_QUERIES = {
         impurity_rate,
         '' as note
     from operation_track_record 
-    where pos_no = '{pos_no}' 
+    where pos_no = {pos_no}
     and date(op_time) >= '{start_date}'
-    and date(op_time) < '{end_date}'
+    and date(op_time) <= '{end_date}'
     order by op_time; 
     """,
 
     # 表格3：班次统计表
     "shift_stats": """
-    select 
-        shift,
-        concat(min(op_time), '-', max(op_time)) as time_range,
+    select
+        t2.shift,
+        t2.time_range,
         count(1) as bucket_num,
         avg(impurity_rate) as avg_rate,
         avg(unit_price) as avg_price,
         sum(unit_price * (1 - impurity_rate)) as amount,
         '' as note
-    from operation_track_record
-    where date(op_time) >= '{start_date}'
-    and date(op_time) < '{end_date}'
-    group by shift;
+    from operation_track_record t1
+    join (
+        select
+        distinct
+            shift,
+            start_time,
+            end_time,
+            concat(start_time, '至', end_time) as time_range
+        from shift_pos_emp_info
+        where date(start_time) >= '{start_date}'
+        and date(end_time) <= '{end_date}'
+    ) t2
+    on t1.shift = t2.shift
+    where t1.op_time >= start_time
+    and t1.op_time <= end_time
+    group by t2.shift, t2.time_range;
     """,
 
     # 表格4：单日统计表
