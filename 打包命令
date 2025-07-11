@@ -1,0 +1,3 @@
+pyinstaller --additional-hooks-dir=./ --onefile your_script.py
+
+pyinstaller --onefile --noconsole --strip --additional-hooks-dir=./ main.py

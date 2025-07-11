@@ -1,0 +1,26 @@
+# 忽略临时文件
+*.tmp
+*.swp
+
+# 忽略编译生成的文件
+*.o
+*.so
+*.class
+
+# 忽略 Python 相关的临时文件
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 忽略打包结果文件
+dist/
+build/
+*.spec
+
+# 忽略idea
+.idea/
+
+# 忽略数据文件
+*.xls
+*.xlsx
